@@ -1,5 +1,8 @@
 import re
 
+from typing import List, Tuple
+
+
 def outputCheck(t: str, s:str) -> int:
     if t == 'NR':
         return 0
@@ -13,12 +16,16 @@ def outputCheck(t: str, s:str) -> int:
 
 class OperateDot:
 
-    def __init__(self, s: str):
+    def __init__(self, s: str, iter_idle: int=0):
         '''
            s: input name string, eg: add1_GR_a2
         '''
-        self.next = []
-        self.pre = []
+        self.succ: List[str] = []
+        self.pre: List[str] = []
+        self.iter_idle = iter_idle
+        self.class_offset = 0
+        self.initial_idle: int = None
+        self.need_adjust: bool = False
         line = s.split('_')
         n = len(line)
         if n == 1:
@@ -28,13 +35,14 @@ class OperateDot:
             self.name = line[0]
             self.output = outputCheck(line[1], s)
         elif n == 3:
+            self.need_adjust = True
             self.name = line[0]
             self.output = outputCheck(line[1], s)
             self.schedule(line[2])
         else:
             raise Exception(f"输入有误! {s} 参数个数异常")
+        self.old_str = s
         self.decode_operation()
-        
     
 
     def decode_operation(self):
@@ -50,3 +58,31 @@ class OperateDot:
     def schedule(self, schedule_str: str):
         self.schedule_class = re.search(r'[a-zA-Z]+', schedule_str)[0]
         self.schedule_idx = int(re.search(r'[0-9]+', schedule_str)[0])
+
+
+    def adjust_initial_idle(self):
+        ''' adjust the initial idle
+        '''
+        # self.initial_idle = 
+        pass
+
+    
+    def succ_initial_idle(self) -> int:
+        # 检查一下这里！
+        ''' calculate the successor initial idle
+            ! this idle is the original II of the successor
+            ! for each dot, we need to adjust it by `schedule_class` and `schedule_idx`
+        '''
+        return self.initial_idle + self.latency + self.output + self.iter_idle + 1
+
+    
+    def calculate_initial_idle_by_succ(self, succ_initial_idle: int):
+        self.initial_idle = succ_initial_idle - self.latency - self.output - self.iter_idle - 1
+        self.adjust_initial_idle()
+        self.initial_idle = self.initial_idle - self.iter_idle
+
+    
+    def build_new_name(self):
+        self.new_name = f'{self.old_str}_{self.initial_idle}'
+
+        
