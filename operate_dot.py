@@ -1,6 +1,6 @@
 import re
 
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 
 def outputCheck(t: str, s:str) -> int:
@@ -48,8 +48,10 @@ class OperateDot:
     def decode_operation(self):
         operation_latency = {
             'add': 1,
+            'route': 1,
+            'shr': 1,
             'mul': 3,
-            'load': 8
+            'load': 6,
         }
         self.operation = re.search(r'[a-zA-Z]+', self.name)[0].lower()
         self.latency = operation_latency[self.operation]
@@ -60,15 +62,13 @@ class OperateDot:
         self.schedule_idx = int(re.search(r'[0-9]+', schedule_str)[0])
 
 
-    def adjust_initial_idle(self):
+    def adjust_initial_idle(self, schedule_class_dict: Dict[str, int]):
         ''' adjust the initial idle
         '''
-        # self.initial_idle = 
         pass
 
     
     def succ_initial_idle(self) -> int:
-        # 检查一下这里！
         ''' calculate the successor initial idle
             ! this idle is the original II of the successor
             ! for each dot, we need to adjust it by `schedule_class` and `schedule_idx`
@@ -76,10 +76,13 @@ class OperateDot:
         return self.initial_idle + self.latency + self.output + self.iter_idle + 1
 
     
-    def calculate_initial_idle_by_succ(self, succ_initial_idle: int):
+    def calculate_initial_idle_by_succ(self, succ_initial_idle: int, schedule_class_dict: Dict[str, int]):
         self.initial_idle = succ_initial_idle - self.latency - self.output - self.iter_idle - 1
-        self.adjust_initial_idle()
-        self.initial_idle = self.initial_idle - self.iter_idle
+        if self.schedule_class not in schedule_class_dict:
+            schedule_class_dict[self.schedule_class] = self.initial_idle - self.schedule_idx
+        else:
+            self.adjust_initial_idle(schedule_class_dict)
+            self.initial_idle = self.initial_idle - self.iter_idle
 
     
     def build_new_name(self):
