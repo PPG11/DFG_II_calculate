@@ -13,40 +13,28 @@ class DFG:
 
 
     def resolve_line(self, line: str):
+        ''' line to dot '''
         res = re.findall(r'[a-zA-Z0-9_]+', line)
-        return res[0], res[1]
+        return OperateDot(res[0]), OperateDot(res[1])
 
 
     def list2OPdot(self):
-        self.name_list = []
-        self.dot_list = []
+        self.dot_dict = {}
         for line in self.line_list:
-            print(line)
-            dot1_str, dot2_str = self.resolve_line(line)
-            dot1 = OperateDot(dot1_str)
-            dot2 = OperateDot(dot2_str)
+            dot1, dot2 = self.resolve_line(line)
             
-            if dot1.name in self.name_list:
-                print('dot1 in')
-                idx = self.name_list.index(dot1.name)
-                self.dot_list[idx].next.append(dot2.name)
+            if dot1.name in self.dot_dict:
+                self.dot_dict[dot1.name].next.append(dot2.name)
             else:
-                print('dot1 not in')
                 dot1.next.append(dot2.name)
-                self.dot_list.append(dot1)
-                self.name_list.append(dot1.name)
+                self.dot_dict[dot1.name] = dot1
 
-            if dot2.name in self.name_list:
-                print('dot2 in')
-                idx = self.name_list.index(dot2.name)
-                self.dot_list[idx].pre.append(dot1.name)
+            if dot2.name in self.dot_dict:
+                self.dot_dict[dot2.name].pre.append(dot1.name)
             else:
-                print('dot2 not in')
                 dot2.pre.append(dot1.name)
-                self.dot_list.append(dot2)
-                print(dot2.name)
-                self.name_list.append(dot2.name)
+                self.dot_dict[dot2.name] = dot2
 
-    def calculate_II(self):
+    def calculate_II(self, first_dot_name: str):
         pass
 
