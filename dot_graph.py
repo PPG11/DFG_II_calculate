@@ -21,25 +21,31 @@ class DFG:
         self.name_list = []
         self.dot_list = []
         for line in self.line_list:
+            print(line)
             dot1_str, dot2_str = self.resolve_line(line)
             dot1 = OperateDot(dot1_str)
             dot2 = OperateDot(dot2_str)
             
             if dot1.name in self.name_list:
+                print('dot1 in')
                 idx = self.name_list.index(dot1.name)
                 self.dot_list[idx].next.append(dot2.name)
             else:
+                print('dot1 not in')
                 dot1.next.append(dot2.name)
                 self.dot_list.append(dot1)
                 self.name_list.append(dot1.name)
 
-        if dot2.name in self.name_list:
-            idx = self.name_list.index(dot2.name)
-            self.dot_list[idx].pre.append(dot1.name)
-        else:
-            dot2.pre.append(dot1.name)
-            self.dot_list.append(dot2)
-            self.name_list.append(dot2.name)
+            if dot2.name in self.name_list:
+                print('dot2 in')
+                idx = self.name_list.index(dot2.name)
+                self.dot_list[idx].pre.append(dot1.name)
+            else:
+                print('dot2 not in')
+                dot2.pre.append(dot1.name)
+                self.dot_list.append(dot2)
+                print(dot2.name)
+                self.name_list.append(dot2.name)
 
     def calculate_II(self):
         pass

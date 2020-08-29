@@ -1,8 +1,9 @@
 import re
-from operate_dot import OperateDot
 
 def outputCheck(t: str, s:str) -> int:
-    if t == 'LR':
+    if t == 'NR':
+        return 0
+    elif t == 'LR':
         return 1
     elif t == 'GR':
         return 2
@@ -15,8 +16,6 @@ class OperateDot:
     def __init__(self, s: str):
         '''
            s: input name string, eg: add1_GR_a2
-        next: next dot name
-         pre: previous dot name
         '''
         self.next = []
         self.pre = []
