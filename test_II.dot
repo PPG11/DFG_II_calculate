@@ -1,8 +1,8 @@
 digraph a {
-    load1_GR_1 -> add1_NR_12
-    load1_GR_1 -> add2_NR_12
-    add1_NR_12 -> mul1_NR_14
-    load2_GR_1 -> add1_NR_12
-    load2_GR_1 -> add2_NR_12
-    add2_NR_12 -> mul2_NR_14
+    load1_GR_a0_1 -> add1_NR_12
+    load1_GR_a0_1 -> add2_NR_12
+    add1_NR_12 -> mul1_NR_16
+    load2_GR_a1_2 -> add1_NR_12
+    load2_GR_a1_2 -> add2_NR_12
+    add2_NR_12 -> mul2_NR_16
 }

@@ -1,0 +1,53 @@
+digraph FFT {
+    load11_gr_a0 -> route1_nr
+    load11_gr_a0 -> add1_nr
+    
+    route1_nr -> load21_nr_b0
+    add1_nr -> load22_nr_b0
+    
+    load21_nr_b0 -> msr1_nr
+    load22_nr_b0 -> msr2_nr
+    load23_nr_a1 -> msr3_nr
+    load24_nr_a2 -> msr4_nr
+    
+    msr1_nr -> sub1_gr
+    msr2_nr -> sub1_gr
+    msr3_nr -> add3_gr
+    msr4_nr -> add3_gr
+
+    load12_gr_a2 -> route2_nr
+    load12_gr_a2 -> add2_nr
+
+    route2_nr -> load25_nr_b1
+    add2_nr -> load26_nr_b1
+
+    load13_gr_a3 -> route3_nr
+    load13_gr_a3 -> add4_nr
+
+    load14_gr_a3 -> route4_nr
+    load14_gr_a3 -> add7_nr
+    
+    sub1_gr -> add5_nr
+    sub1_gr -> sub2_nr
+
+    add3_gr -> add6_nr
+    add3_gr -> sub3_nr
+
+    load25_nr_b1 -> add5_nr
+    load25_nr_b1 -> sub2_nr
+
+    load26_nr_b1 -> add6_nr
+    load26_nr_b1 -> sub3_nr
+
+    route3_nr -> store1_nr_b2
+    add5_nr -> store1_nr_b2
+
+    add4_nr -> store2_nr_b2
+    add6_nr -> store2_nr_b2
+
+    route4_nr -> store3_nr_b3
+    sub2_nr ->store3_nr_b3
+
+    add7_nr -> store4_nr_b3
+    sub3_nr -> store4_nr_b3
+}
