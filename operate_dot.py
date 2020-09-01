@@ -12,7 +12,7 @@ def outputCheck(t: str, s:str) -> int:
     elif t == 'GR':
         return 2
     else:
-        raise Exception(f"输入有误! {s} 中第二参数非LR/GR")
+        raise Exception(f"输入有误! {s} 中第二参数非LR/GR/NR")
 
 
 class OperateDot:
