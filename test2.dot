@@ -1,0 +1,15 @@
+digraph a {
+    load1 [out1=GR0, schedule=a0]
+    load2 [out1=GR1, schedule=a1]
+    add1 [out1=NR]
+    add2 [out1=NR]
+    mul1 [out1=NR]
+    mul2 [out1=NR]
+
+    load1 -> add1
+    load2 -> add1
+    load1 -> add2
+    load2 -> add2
+    add1 -> mul1
+    add2 -> mul2
+}
